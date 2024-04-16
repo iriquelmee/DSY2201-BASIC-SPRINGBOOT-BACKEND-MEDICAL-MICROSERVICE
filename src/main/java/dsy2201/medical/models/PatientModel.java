@@ -1,34 +1,55 @@
 package dsy2201.medical.models;
 
-//CREATED AND MANTAINED by: IGNACIO EDUARDO RIQUELME ERAZO 
-public class PatientModel {
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+//CREATED AND MANTAINED by: IGNACIO EDUARDO RIQUELME ERAZO
+@Entity
+@Table(name = "patient") 
+public class PatientModel implements Serializable {
 
     //Encapsulating atributes for this model
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
-    private String fullNames;
-    private String lastNames;
-    private String rut;
-    private String bornDate;
-    private String gender;
-    private String mail;
-    private String address;
-    private String phoneContact;
     
-    //Empty constructor for patient model
-    public PatientModel() {
-        this.id = 0;
-        this.fullNames = "";
-        this.lastNames = "";
-        this.rut = "";
-        this.bornDate = "";
-        this.gender = "";
-        this.mail = "";
-        this.address = "";
-        this.phoneContact = "";
-    }
+    @Column(name = "fullNames", length = 128)
+    private String fullNames;
 
-    //Constructor
-    public PatientModel(int id, String fullNames, String lastNames, String rut, String bornDate, String gender, String mail, String address, String phoneContact) {
+    @Column(name = "lastNames", length = 128)
+    private String lastNames;
+
+    @Column(name = "rut", length = 10)
+    private String rut;
+
+    @Column(name = "bornDate", length = 128)
+    private String bornDate;
+
+    @Column(name = "gender", length = 128)
+    private String gender;
+
+    @Column(name = "mail", length = 128)
+    private String mail;
+
+    @Column(name = "address", length = 128)
+    private String address;
+
+    @Column(name = "phoneContact", length = 15)
+    private String phoneContact;
+
+    //apply cardinality one to one from record to patient
+    @OneToOne(mappedBy = "patient")
+    private MedicalRecordModel record;
+
+    public PatientModel(int id, String fullNames, String lastNames, String rut, String bornDate, String gender, String mail, String address, String phoneContact, MedicalRecordModel record) {
         this.id = id;
         this.fullNames = fullNames;
         this.lastNames = lastNames;
@@ -38,9 +59,24 @@ public class PatientModel {
         this.mail = mail;
         this.address = address;
         this.phoneContact = phoneContact;
+        this.record = record;
     }
-    
+
+    //Empty constructor for patient model
+    public PatientModel() {
+    }
+
+    //Constructor
+
     //Getters and setters for patient modle
+    public MedicalRecordModel getRecord() {
+        return record;
+    }
+
+    public void setRecord(MedicalRecordModel record) {
+        this.record = record;
+    }
+
     public int getId() {
         return id;
     }

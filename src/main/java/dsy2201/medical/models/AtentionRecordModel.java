@@ -1,30 +1,62 @@
 package dsy2201.medical.models;
 
-//CREATED AND MANTAINED by: IGNACIO EDUARDO RIQUELME ERAZO 
-public class AtentionRecordModel {
+import java.io.Serializable;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
+//CREATED AND MANTAINED by: IGNACIO EDUARDO RIQUELME ERAZO 
+@Entity
+@Table(name = "atention")  
+public class AtentionRecordModel implements Serializable  {
     //Encapsulatig data
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
+
+    @Column(name = "dateAtention", length = 128)
     private String dateAtention;
+
+    @Column(name = "reasonConsult", length = 128)
     private String reasonConsult;
+
+    @Column(name = "diagnostic", length = 128)
     private String diagnostic;
+
+    @Column(name = "phisichalExamination", length = 128)
     private String phisichalExamination;
+
+    @Column(name = "treatment", length = 128)
     private String treatment;
+
+    @Column(name = "severalInstructions", length = 128)
     private String severalInstructions;
+
+    @Column(name = "monitoring", precision=1)
     private int monitoring;
+
+    @Column(name = "AdditionalInfo", length = 128)
     private String AdditionalInfo;
+
+    //apply cardinality many to one from atention to patient
+    @ManyToMany(mappedBy = "attentions", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<MedicalRecordModel> record;
+
 
     //Empty cosntructor
     public AtentionRecordModel(){
-        this.id = 0;
-        this.dateAtention = "";
-        this.reasonConsult = "";
-        this.diagnostic = "";
-        this.phisichalExamination = "";
-        this.treatment = "";
-        this.severalInstructions = "";
-        this.monitoring = 0;
-        this.AdditionalInfo = "";
     }
     
     //constructor
